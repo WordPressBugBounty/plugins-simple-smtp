@@ -98,7 +98,7 @@ class Settings {
 				<?php
 
 				if ( ! $this->ms && defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-					echo wp_kses( "<span class='wpsmtp-badge info'>{$value->source}</span>", [ 'span' => [ 'class' => [] ] ] );
+					echo wp_kses( "<span class='{$this->debug_info_colour( $value->source )}'>{$value->source}</span>", [ 'span' => [ 'class' => [] ] ] );
 				}
 
 				if ( ! empty( $description ) ) {
@@ -142,7 +142,7 @@ class Settings {
 				<?php
 
 				if ( ! $this->ms && defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-					echo wp_kses( "<span class='wpsmtp-badge info'>{$value->source}</span>", [ 'span' => [ 'class' => [] ] ] );
+					echo wp_kses( "<span class='{$this->debug_info_colour( $value->source )}'>{$value->source}</span>", [ 'span' => [ 'class' => [] ] ] );
 				}
 
 				if ( ! empty( $description ) ) {
@@ -168,7 +168,7 @@ class Settings {
 		add_settings_field(
 			'wpssmtp_smtp_' . $name,
 			$name_pretty,
-			function() use ( &$callback ) {
+			function () use ( &$callback ) {
 				?>
 				<fieldset>
 					<?php call_user_func( $callback ); ?>
@@ -197,7 +197,7 @@ class Settings {
 
 		$debuginfo = '';
 		if ( ! $this->ms && defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-			$debuginfo = "<span class='wpsmtp-badge info'>{$value->source}</span>";
+			$debuginfo = "<span class='{$this->debug_info_colour( $value->source )}'>{$value->source}</span>";
 		}
 
 		?>
@@ -286,5 +286,72 @@ class Settings {
 				return false;
 			}
 		}
+	}
+
+	/**
+	 * Responds with class params to colour headers based on source type.
+	 *
+	 * Responds with green for environment, yellow for multisite, and blue for anything else.
+	 *
+	 * @param string $source The source value (ENV and MULTISITE trigger variances).
+	 * @return string HTML class elements for styling based on source type.
+	 */
+	private function debug_info_colour( $source ) {
+		if ( 'ENV' === $source ) {
+			return 'wpsmtp-badge success';
+		} elseif ( 'MULTISITE' === $source ) {
+			return 'wpsmtp-badge warning';
+		} else {
+			return 'wpsmtp-badge info';
+		}
+	}
+
+	/**
+	 * Sanitizes and validates SMTP settings input.
+	 *
+	 * @param array $input Associative array of SMTP settings, potentially
+	 *                     containing keys: 'host', 'port', 'auth', 'user', 'pass',
+	 *                     'from', 'fromname', 'sec', 'noverifyssl', 'disable', 'log'.
+	 *
+	 * @return array Sanitized and validated SMTP settings ready for storage.
+	 */
+	public function sanitize_smtp_settings( $input ) {
+		$output = array();
+
+		if ( ! empty( $input['host'] ) ) {
+			$output['host'] = sanitize_text_field( wp_unslash( $input['host'] ) );
+		}
+		if ( ! empty( $input['port'] ) ) {
+			$output['port'] = (int) $input['port'];
+		}
+		if ( isset( $input['auth'] ) ) {
+			$output['auth'] = (int) $input['auth'];
+		}
+		if ( ! empty( $input['user'] ) ) {
+			$output['user'] = sanitize_text_field( wp_unslash( $input['user'] ) );
+		}
+		if ( ! empty( $input['pass'] ) ) {
+			$output['pass'] = sanitize_text_field( wp_unslash( $input['pass'] ) );
+		}
+		if ( ! empty( $input['from'] ) ) {
+			$output['from'] = sanitize_email( wp_unslash( $input['from'] ) );
+		}
+		if ( ! empty( $input['fromname'] ) ) {
+			$output['fromname'] = sanitize_text_field( wp_unslash( $input['fromname'] ) );
+		}
+		if ( ! empty( $input['sec'] ) ) {
+			$output['sec'] = sanitize_text_field( wp_unslash( $input['sec'] ) );
+		}
+		if ( isset( $input['noverifyssl'] ) ) {
+			$output['noverifyssl'] = (int) $input['noverifyssl'];
+		}
+		if ( isset( $input['disable'] ) ) {
+			$output['disable'] = (int) $input['disable'];
+		}
+		if ( isset( $input['log'] ) ) {
+			$output['log'] = (int) $input['log'];
+		}
+
+		return $output;
 	}
 }

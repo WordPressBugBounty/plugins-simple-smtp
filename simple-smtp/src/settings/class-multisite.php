@@ -60,7 +60,14 @@ class Multisite extends Settings {
 	 * Initialises the settings implementation.
 	 */
 	public function network_settings_init() {
-		register_setting( 'wpsimplesmtp_smtp_ms', 'wpssmtp_smtp_ms' );
+		register_setting(
+			'wpsimplesmtp_smtp_ms',
+			'wpssmtp_smtp_ms',
+			array(
+				'type'              => 'array',
+				'sanitize_callback' => array( $this, 'sanitize_smtp_settings' ),
+			)
+		);
 
 		add_settings_section(
 			'wpsimplesmtp_ms_adminaccess_section',
@@ -82,7 +89,7 @@ class Multisite extends Settings {
 		$this->generate_checkbox_area(
 			'adt',
 			__( 'Options', 'simple-smtp' ),
-			function() {
+			function () {
 				$this->generate_checkbox( 'disable', __( 'Disable email services', 'simple-smtp' ), __( 'When marked, all multisite email services will be disabled.', 'simple-smtp' ) );
 				$this->generate_checkbox( 'log', __( 'Log all sent emails to the database', 'simple-smtp' ), __( 'Works with the WordPress privacy features.', 'simple-smtp' ) );
 				$this->generate_checkbox( 'noverifyssl', __( 'Disable SSL Verification (advanced)', 'simple-smtp' ), __( 'Do not disable this unless you know what you\'re doing.', 'simple-smtp' ) );
@@ -150,7 +157,7 @@ class Multisite extends Settings {
 		?>
 		<div class="wrap">
 			<h1><?php esc_html_e( 'Network Mail', 'simple-smtp' ); ?></h1>
-			<form action='edit.php?action=wpsimplesmtpms' method='post'>	
+			<form action='edit.php?action=wpsimplesmtpms' method='post'>
 				<?php
 				wp_nonce_field( 'simple-smtp-ms' );
 				do_settings_sections( 'wpsimplesmtp_smtp_ms' );
@@ -165,7 +172,7 @@ class Multisite extends Settings {
 	 * Retrieves the settings page when the administrator has sent changed settings.
 	 */
 	public function update_network_settings() {
-		if ( isset( $_REQUEST['_wpnonce'] ) && ! wp_verify_nonce( sanitize_key( $_REQUEST['_wpnonce'] ), 'simple-smtp-ms' ) ) {
+		if ( ! isset( $_REQUEST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_key( $_REQUEST['_wpnonce'] ), 'simple-smtp-ms' ) ) {
 			wp_die( esc_attr_e( 'Your nonce key has expired.', 'simple-smtp' ) );
 		}
 

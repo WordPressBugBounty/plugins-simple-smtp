@@ -36,7 +36,7 @@ class Options {
 
 		if ( ! $ms_only && ! empty( $_ENV[ $sysname ] ) ) {
 			return (object) [
-				'value'  => $_ENV[ $sysname ],
+				'value'  => sanitize_text_field( $_ENV[ $sysname ] ),
 				'source' => 'ENV',
 			];
 		} elseif ( ! $ms_only && defined( $sysname ) ) {
@@ -62,25 +62,21 @@ class Options {
 						'value'  => $this->maybe_decrypt( $options, $name ),
 						'source' => 'CONFIG',
 					];
-				} else {
-					if ( $blank_obj_on_empty ) {
+				} elseif ( $blank_obj_on_empty ) {
 						return (object) [
 							'value'  => '',
 							'source' => 'CONFIG',
 						];
-					} else {
-						return null;
-					}
+				} else {
+					return null;
 				}
-			} else {
-				if ( $blank_obj_on_empty ) {
+			} elseif ( $blank_obj_on_empty ) {
 					return (object) [
 						'value'  => '',
 						'source' => 'MULTISITE',
 					];
-				} else {
-					return null;
-				}
+			} else {
+				return null;
 			}
 		}
 	}

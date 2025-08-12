@@ -1,11 +1,12 @@
-=== WordPress Simple SMTP ===
+=== Simple SMTP ===
 Contributors: soupbowl
 Tags: mail,email,smtp,dispatch,sender
 Requires at least: 5.0
-Tested up to: 6.3
+Tested up to: 6.8
 Requires PHP: 7.0
-Stable tag: 1.3.3
+Stable tag: 1.3.4.1
 License: MIT
+GitHub Plugin URI: https://github.com/soup-bowl/simple-smtp
 
 Adds a simple mail configuration panel into your WordPress installation. Supports temporary logging and config variables.
 
@@ -104,31 +105,76 @@ Yes! [Please see our GitHub repository here](https://github.com/soup-bowl/wp-sim
 One of the easiest aspects to contribute to is the SMTP quick configuration segment. If you wish to maintain this aspect, suggest a new setting, or report broken entries, see the [SMTP quick config wiki page](https://github.com/soup-bowl/wp-simple-smtp/wiki/SMTP-Quick-Config).
 
 == Changelog ==
-= 1.3.3 =
+This changelog has been auto-generated from [soup-bowl/simple-smtp](https://github.com/soup-bowl/simple-smtp/releases).\n\n
+= 1.3.4.1 =
+##### Changed
+* Fixes for issues highlighted in #175 by @DanielHudson2 in https://github.com/soup-bowl/simple-smtp/pull/181 
+
+##### Contributors
+* @DanielHudson2 made their first contribution in https://github.com/soup-bowl/simple-smtp/pull/181
+
+**Full Changelog**: https://github.com/soup-bowl/simple-smtp/compare/1.3.4...1.3.4.1
+
+= 1.3.4 =
+##### Changed
+* **Branding changes to comply with WordPress trademark policies.**
+* Bump the dev-dependencies group with 5 updates by @dependabot[bot] in https://github.com/soup-bowl/wp-simple-smtp/pull/155
+* Bump the dev-dependencies group with 1 update by @dependabot[bot] in https://github.com/soup-bowl/wp-simple-smtp/pull/158
+* WordPress Coding Standards Linting by @soup-bowl in https://github.com/soup-bowl/wp-simple-smtp/pull/157
+* Automatic Changelog by @soup-bowl in https://github.com/soup-bowl/wp-simple-smtp/pull/159
+* Pipeline replacement for asset upload by @soup-bowl in https://github.com/soup-bowl/wp-simple-smtp/pull/160
+* Bump the dev-dependencies group with 2 updates by @dependabot[bot] in https://github.com/soup-bowl/wp-simple-smtp/pull/163
+* Bump phpunit/phpunit from 9.6.18 to 9.6.19 in the dev-dependencies group by @dependabot[bot] in https://github.com/soup-bowl/wp-simple-smtp/pull/167
+* Change log expiry via hook & expiry visibility by @soup-bowl in https://github.com/soup-bowl/wp-simple-smtp/pull/165
+* Verify post type before executing delete by @soup-bowl in https://github.com/soup-bowl/wp-simple-smtp/pull/169
+* Bump vlucas/phpdotenv from 5.6.0 to 5.6.1 in the dev-dependencies group by @dependabot[bot] in https://github.com/soup-bowl/wp-simple-smtp/pull/171
+
+
+**Full Changelog**: https://github.com/soup-bowl/wp-simple-smtp/compare/1.3.3...1.3.4
+
+= Version 1.3.3 =
 * Verified working with WordPress 6.3.
 * Fix: $log_service deprecation notice ([#146](https://github.com/soup-bowl/wp-simple-smtp/issues/146)).
 * Added: None encryption setting ([#148](https://github.com/soup-bowl/wp-simple-smtp/issues/148)).
 
-= 1.3.2.2 =
+= Version 1.3.2.2 =
 * Verified working with WordPress 6.1 and 6.2.
 * Fix: PHP warning on the CLI interface ([#140](https://github.com/soup-bowl/wp-simple-smtp/issues/140)).
 
-= 1.3.2.1 =
+##### Notice
+
+You may notice there's 3 unexpected new files in the `wp-simple-smtp` directory:
+
+- `DOCKER_ENV`
+- `docker_tag`
+- `output.log`
+
+These files were unfortunately [introduced during the deployment pipeline](https://github.com/soup-bowl/wp-simple-smtp/actions/runs/4682456082/jobs/8296334346), and have subsequently been packaged into the release file. I've since [added these to the exclusion list](https://github.com/soup-bowl/wp-simple-smtp/commit/d41631f216af2fd4d08e3e75ae31911930222fcb), so in later deployments they won't be present.
+
+Until next release, you can delete these files without detrimental effect. Next update should remove these anyway.
+
+= Version 1.3.2.1 (Hotfix) =
 * Rollback: #116 fix regressed due to relying on a function not found in the general scope.
 
-= 1.3.2 =
+= Version 1.3.2 =
 * Added: Mail view now displays from, cc, bcc & the headers stored when logging is enabled.
 * Fix: Infinite loop when a plugin hooks into the mail routine functions and sends an email ([#116](https://github.com/soup-bowl/wp-simple-smtp/pull/116)).
 
-= 1.3.1.1 =
+= Version 1.3.1.1 =
 * Verified working with WordPress 6.0.
 
-= 1.3.1 =
+Note: #109 has not reached main yet, so the deployment hasn't fully succeeded. However this release is purely to update the WordPress state, and is not required for GitHub & manual deployments.
+
+
+= Version 1.3.1 =
 * Added: Glance view on the dashboard to see mail usage (Thanks [Kebbet](https://github.com/kebbet) - [PR 101](https://github.com/soup-bowl/wp-simple-smtp/pull/101), [PR 102](https://github.com/soup-bowl/wp-simple-smtp/pull/102)).
 * Fix: Table view appears correctly on mobile (Thanks [Kebbet](https://github.com/kebbet) - [PR 93](https://github.com/soup-bowl/wp-simple-smtp/pull/93)).
 * Fix: Log view table navigation (Thanks [Kebbet](https://github.com/kebbet) - [PR 106](https://github.com/soup-bowl/wp-simple-smtp/pull/106)).
 
-= 1.3 =
+
+= Version 1.3 =
+The minor release version is bumped for **capability changes** and the **log storage goes from indefinite to monthly**. A filter is provided to reverse this change, and it does not take effect on new installs, but this will hopefully reduce the contribution to database bloat and data collection that can fall foul of GDPR restrictions (although users switching back to indefinite can benefit from privacy integrations).
+
 * Added: Read logged emails via WP-CLI.
 * Added: Status message from testing emails ([#81](https://github.com/soup-bowl/wp-simple-smtp/issues/81)).
 * Change: Uninstalling the plugin will remove the lingering logs ([#70](https://github.com/soup-bowl/wp-simple-smtp/issues/70)).
@@ -137,83 +183,112 @@ One of the easiest aspects to contribute to is the SMTP quick configuration segm
 * Change: Tightened permissions to the log viewer ([#74](https://github.com/soup-bowl/wp-simple-smtp/issues/74)).
 * Fix: Incorrect capability type used by the log viewer. Thanks to [Benoît Chantre](https://github.com/benoitchantre) [#74](https://github.com/soup-bowl/wp-simple-smtp/issues/74).
 
-= 1.2.3 =
+
+= Version 1.2.3 =
 * Add: [WordPress CLI](https://wp-cli.org/) support. See the FAQ for usage details.
 * Change: Password not returned plaintext in settings ([#61](https://github.com/soup-bowl/wp-simple-smtp/issues/61)).
 * Fix: Multisite-only config caused an instantiation error ([#67](https://github.com/soup-bowl/wp-simple-smtp/issues/67)).
 
-= 1.2.2 =
+
+= Version 1.2.2 =
 * Add: Filter for the log entries. Thanks to [Kebbet](https://github.com/kebbet) [#57](https://github.com/soup-bowl/wp-simple-smtp/issues/57).
 * Change: Input boxes clearer and more WordPress-standardised ([#51](https://github.com/soup-bowl/wp-simple-smtp/issues/51), [#52](https://github.com/soup-bowl/wp-simple-smtp/pull/52)).
 * Fix: Use network_admin_url instead of crafting a URL. Thanks to [Kebbet](https://github.com/kebbet) [#53](https://github.com/soup-bowl/wp-simple-smtp/issues/53).
 * Fix: Notice when saving settings without password being set ([#44](https://github.com/soup-bowl/wp-simple-smtp/issues/44)).
 
-= 1.2.1 =
+= Version 1.2.1 =
 * Change: Multisite listing table improvements. Thanks to [Kebbet](https://github.com/kebbet) ([#50](https://github.com/soup-bowl/wp-simple-smtp/issues/50)).
 * Fix: Line break issue when viewing emails in the site log. Thanks to [Kebbet](https://github.com/kebbet) [#47](https://github.com/soup-bowl/wp-simple-smtp/issues/47).
 * Fix: Missed localisations in the multisite table. Thanks to [Kebbet](https://github.com/kebbet) [#45](https://github.com/soup-bowl/wp-simple-smtp/issues/45).
 
-= 1.2 =
+
+= Version 1.2 =
 * New: Multisite settings for admin visibility and override settings ([#6](https://github.com/soup-bowl/wp-simple-smtp/issues/6)).
 * New: Sites in debug mode will show what stage has set the configuration item in the relevant box. 
 * New: For sites using logging, 'Erase Personal Data' will remove requested email address entries from the log ([#37](https://github.com/soup-bowl/wp-simple-smtp/issues/37)).
 
-= 1.1.2 =
-* Verified working with WordPress 5.8.
 
-= 1.1.1 =
+= Version 1.1.2 =
+Confirmed working with WordPress 5.8.
+
+= Version 1.1.1 =
 * Verified working with WordPress 5.7.
 * Fix: Crash when sending emails with the email system disabled ([#35](https://github.com/soup-bowl/wp-simple-smtp/issues/35)).
 
-= 1.1.0 =
+= Version 1.1 =
+Minor update to include some new features and bug fixes.
+
+##### Changes
 * New: You can now disable emails ([#9](https://github.com/soup-bowl/wp-simple-smtp/issues/9)).
 * New: Attachments are now logged, and will be resent if they are still available on the system ([#14](https://github.com/soup-bowl/wp-simple-smtp/issues/14)).
 * New: Key change detection when SMTP password encryption is used, to warn user the email dispatch may fail ([#28](https://github.com/soup-bowl/wp-simple-smtp/issues/28)).
 * Change: Custom HTML removed in favour of translatable HTML test email. Thanks to [Kebbet](https://github.com/kebbet) for implementation ([#26](https://github.com/soup-bowl/wp-simple-smtp/issues/26)).
 * Fix: JavaScript error when viewing emails ([#24](https://github.com/soup-bowl/wp-simple-smtp/issues/24)).
 
-= 1.0.2 =
+= Version 1.0.2 =
+More translation fixes provided by @kebbet to display correct translations for the quick config selection tool, and kindly provided a pagination bugfix.
+
+##### Changes
 * Fix: Quick config translations not loading, and missing i18n entities. Thanks [Kebbet](https://github.com/kebbet) ([#21](https://github.com/soup-bowl/wp-simple-smtp/issues/21)).
 * Fix: Incorrect pagination if the log count was divisible by 5. Thanks [Kebbet](https://github.com/kebbet) ([#18](https://github.com/soup-bowl/wp-simple-smtp/issues/18)).
 
-= 1.0.1 =
-* Fix: Text-domain mismatch causing translations not to load in correctly. Thank you to [Kebbet](https://github.com/kebbet) for the fix ([#19](https://github.com/soup-bowl/wp-simple-smtp/issues/19)).
+= Version 1.0.1 =
+Merges @kebbet PR to fix translations that were bugged out due to a WP slug and textdomain mismatch.
 
-= 1.0.0 =
+= Version 1.0 🎉 =
+Nothing's changed since it's been pretty much stable all alpha (#15), but now marks it as stable.
+
+##### Changes
 * Bumped version to 1.0.0. Application will follow [Semantic Versioning](https://semver.org/) ongoing. ([#15](https://github.com/soup-bowl/wp-simple-smtp/issues/15)).
 
-= 0.3.6 =
+= Version 0.3.6 =
+Minor improvements release, including:
+
 * SMTPSecure is now a configurable option ([#11](https://github.com/soup-bowl/wp-simple-smtp/issues/11)).
 * Log entries can now be deleted ([#13](https://github.com/soup-bowl/wp-simple-smtp/issues/13)).
 
-= 0.3.5 =
+[Available on WordPress.org](https://wordpress.org/plugins/simple-smtp/).
+
+= Version 0.3.5 =
 * When openssl is available, the password stored in the database will be encrypted.
 * Added a quick configuration option, to guide SMTP setup (less Googling).
 
-= 0.3.4 =
+This release has been tested and confirmed working with WordPress 5.6.
+
+[Available on WordPress.org](https://wordpress.org/plugins/simple-smtp/).
+
+= Version 0.3.4 =
 * Confirmed working with WordPress 5.5.1.
 * Added option to disable SSL verification.
 * Multiple emails can be used in the test functionality.
 
-= 0.3.3 =
-* Independent log tables deprecated for CPT.
+Pre-release status has been silently dropped. The implication of pre-release alpha is that this is not ready for production, whereas this has been in-use for quite some time. This is still early days however, so the 0. release number will stay for now.
 
-= 0.3.2 =
-* Changed display format of email log.
-* Limit resent emails to hourly.
+[Available on WordPress.org](https://wordpress.org/plugins/simple-smtp/).
 
-= 0.3.1 =
-* Table is created or deleted upon plugin state change.
+= Version 0.3.3 Alpha =
+Custom table has been deprecated in favour of storing logs within the posts table as a CPT.
 
-= 0.3 =
-* Changes to test emails.
-* Log view changed depending on header.
+= Version 0.3.2 Alpha =
 
-= 0.2 =
-* SMTP error logging.
-* View and resend emails.
-* Test email settings.
 
-= 0.1 =
+= Version 0.3.1 Alpha =
+
+
+= Version 0.3 Alpha =
+
+
+= Version 0.2 Alpha =
+
+
+= Initial alpha release =
+First release of the WP Simple SMTP plugin. Testing of this release is much appreciated.
+
+Features include:
 * SMTP configuration handling (overrides `mail()`).
 * Optional SMTP logging (basic functionality).
+
+As with this release and ongoing releases, there are no dashboard ads or promotions.
+
+**While Alpha, this is not currently in the WordPress directory.** To install, navigate to plugin store, click 'Upload Plugin', and upload the compiled ZIP to your site.
+
